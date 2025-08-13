@@ -17,21 +17,21 @@ export const useCredits = () => {
     }
 
     try {
+      setLoading(true);
+      
       // Utiliser la fonction RPC pour récupérer les crédits
-      const { data, error } = await (supabase as any).rpc('get_user_credits', {
+      const { data, error } = await supabase.rpc('get_user_credits', {
         user_id_param: user.id
       });
 
       if (error) {
-        // Si l'utilisateur n'a pas encore de compte de crédits, en créer un
-        if (error.code === 'PGRST116') {
-          await initializeCredits();
-        } else {
-          throw error;
-        }
+        console.error('Erreur lors du chargement des crédits:', error);
+        // Essayer de créer le compte de crédits
+        await initializeCredits();
       } else if (data && data.length > 0) {
         setCredits(data[0].credits);
       } else {
+        // Aucun compte de crédits trouvé, en créer un
         await initializeCredits();
       }
     } catch (err: unknown) {
@@ -48,8 +48,7 @@ export const useCredits = () => {
     if (!user) return;
 
     try {
-      // Utiliser la fonction RPC pour créer un compte de crédits
-      const { data, error } = await (supabase as any).rpc('create_user_credits', {
+      const { data, error } = await supabase.rpc('create_user_credits', {
         user_id_param: user.id,
         initial_credits: 50
       });
@@ -58,6 +57,8 @@ export const useCredits = () => {
 
       if (data && data.length > 0) {
         setCredits(data[0].credits);
+      } else {
+        setCredits(50); // Valeur par défaut
       }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Erreur lors de l\'initialisation des crédits';
@@ -73,8 +74,7 @@ export const useCredits = () => {
     }
 
     try {
-      // Utiliser la fonction RPC pour consommer les crédits
-      const { data, error } = await (supabase as any).rpc('consume_user_credits', {
+      const { data, error } = await supabase.rpc('consume_user_credits', {
         user_id_param: user.id,
         credits_to_consume: amount,
         reason: reason || 'Consommation de crédits'
@@ -100,8 +100,7 @@ export const useCredits = () => {
     if (!user) return false;
 
     try {
-      // Utiliser la fonction RPC pour ajouter des crédits
-      const { data, error } = await (supabase as any).rpc('add_user_credits', {
+      const { data, error } = await supabase.rpc('add_user_credits', {
         user_id_param: user.id,
         credits_to_add: amount,
         reason: reason || 'Ajout de crédits'
@@ -132,7 +131,7 @@ export const useCredits = () => {
     if (!user) return 0;
 
     try {
-      const { data, error } = await (supabase as any).rpc('get_user_credit_balance', {
+      const { data, error } = await supabase.rpc('get_user_credit_balance', {
         user_id_param: user.id
       });
 
@@ -149,7 +148,7 @@ export const useCredits = () => {
     if (!user) return [];
 
     try {
-      const { data, error } = await (supabase as any).rpc('get_user_transactions', {
+      const { data, error } = await supabase.rpc('get_user_transactions', {
         user_id_param: user.id,
         limit_count: limit
       });

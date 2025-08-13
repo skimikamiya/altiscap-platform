@@ -32,7 +32,7 @@ export const StripePayment: React.FC = () => {
   const loadCreditPacks = async () => {
     try {
       setLoadingPacks(true);
-      const { data, error } = await (supabase as any).rpc('get_credit_packs');
+      const { data, error } = await supabase.rpc('get_credit_packs');
       
       if (error) throw error;
       
@@ -99,10 +99,10 @@ export const StripePayment: React.FC = () => {
         
         // Enregistrer l'achat dans Supabase
         try {
-          await (supabase as any).from('credit_purchases').insert({
+          await supabase.from('credit_purchases').insert({
             pack_id: pack.id,
             credits: pack.credits,
-            amount_euros: pack.price_euros,
+            amount_euros: pack.price_euros.toString(),
             status: 'completed'
           });
         } catch (error) {

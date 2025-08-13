@@ -71,6 +71,141 @@ export type Database = {
         }
         Relationships: []
       }
+      credit_packs: {
+        Row: {
+          active: boolean | null
+          created_at: string
+          credits: number
+          features: Json | null
+          id: string
+          name: string
+          popular: boolean | null
+          price_euros: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string
+          credits: number
+          features?: Json | null
+          id: string
+          name: string
+          popular?: boolean | null
+          price_euros: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string
+          credits?: number
+          features?: Json | null
+          id?: string
+          name?: string
+          popular?: boolean | null
+          price_euros?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      credit_purchases: {
+        Row: {
+          amount_euros: number
+          completed_at: string | null
+          created_at: string
+          credits: number
+          id: string
+          pack_id: string
+          status: string
+          stripe_payment_intent_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount_euros: number
+          completed_at?: string | null
+          created_at?: string
+          credits: number
+          id?: string
+          pack_id: string
+          status?: string
+          stripe_payment_intent_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount_euros?: number
+          completed_at?: string | null
+          created_at?: string
+          credits?: number
+          id?: string
+          pack_id?: string
+          status?: string
+          stripe_payment_intent_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      credit_transactions: {
+        Row: {
+          amount: number
+          balance_after: number
+          balance_before: number
+          created_at: string
+          description: string | null
+          id: string
+          metadata: Json | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          balance_before: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          balance_before?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      global_settings: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          key: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          key: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       uploaded_files: {
         Row: {
           analysis_result: Json | null
@@ -107,12 +242,150 @@ export type Database = {
         }
         Relationships: []
       }
+      user_credits: {
+        Row: {
+          created_at: string
+          credits: number
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          credits?: number
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          credits?: number
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_user_credits: {
+        Args: {
+          user_id_param: string
+          credits_to_add: number
+          reason?: string
+        }
+        Returns: {
+          id: string
+          user_id: string
+          credits: number
+          created_at: string
+          updated_at: string
+        }[]
+      }
+      consume_user_credits: {
+        Args: {
+          user_id_param: string
+          credits_to_consume: number
+          reason?: string
+        }
+        Returns: {
+          id: string
+          user_id: string
+          credits: number
+          created_at: string
+          updated_at: string
+        }[]
+      }
+      create_user_credits: {
+        Args: {
+          user_id_param: string
+          initial_credits?: number
+        }
+        Returns: {
+          id: string
+          user_id: string
+          credits: number
+          created_at: string
+          updated_at: string
+        }[]
+      }
+      get_all_users_with_credits: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          email: string
+          credits: number
+          created_at: string
+        }[]
+      }
+      get_credit_packs: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          name: string
+          credits: number
+          price_euros: number
+          popular: boolean
+          features: Json
+        }[]
+      }
+      get_global_settings: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          key: string
+          value: string
+          description: string
+        }[]
+      }
+      get_user_credit_balance: {
+        Args: {
+          user_id_param: string
+        }
+        Returns: number
+      }
+      get_user_credits: {
+        Args: {
+          user_id_param: string
+        }
+        Returns: {
+          id: string
+          user_id: string
+          credits: number
+          created_at: string
+          updated_at: string
+        }[]
+      }
+      get_user_transactions: {
+        Args: {
+          user_id_param: string
+          limit_count?: number
+        }
+        Returns: {
+          id: string
+          type: string
+          amount: number
+          balance_before: number
+          balance_after: number
+          description: string
+          created_at: string
+        }[]
+      }
+      update_user_credits: {
+        Args: {
+          user_id_param: string
+          new_credits: number
+        }
+        Returns: {
+          id: string
+          user_id: string
+          credits: number
+          created_at: string
+          updated_at: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

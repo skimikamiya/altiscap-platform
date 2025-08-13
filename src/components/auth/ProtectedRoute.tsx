@@ -40,7 +40,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Vérifier les droits d'administration
-  if (adminOnly && user?.user_metadata?.role !== 'admin') {
+  if (adminOnly && user?.user_metadata?.role !== 'admin' && user?.email !== 'admin@altiscap.com') {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md">

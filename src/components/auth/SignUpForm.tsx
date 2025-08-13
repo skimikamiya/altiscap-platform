@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useAuth } from './AuthProvider';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Lock, User, AlertCircle, CheckCircle } from 'lucide-react';
+import { useState as useReactState } from 'react';
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ const SignUpForm = () => {
     confirmPassword: ''
   });
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useReactState(false);
   const { signUp, error, clearError } = useAuth();
   const { toast } = useToast();
 
@@ -55,9 +57,13 @@ const SignUpForm = () => {
 
     try {
       await signUp(formData.email, formData.password);
-      toast({
-        title: "Inscription réussie !",
-        description: "Vérifiez votre email pour confirmer votre compte. Vous recevrez 50 crédits gratuits !",
+      setSuccess(true);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
       });
     } catch (error) {
       // L'erreur est déjà gérée dans le contexte
@@ -66,6 +72,23 @@ const SignUpForm = () => {
       setLoading(false);
     }
   };
+
+  if (success) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardContent className="p-8 text-center">
+          <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold mb-2">Inscription réussie !</h3>
+          <p className="text-gray-600 mb-4">
+            Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.
+          </p>
+          <p className="text-sm text-green-600 font-medium">
+            🎉 50 crédits gratuits vous attendent !
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="w-full max-w-md">
