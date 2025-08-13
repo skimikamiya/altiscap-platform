@@ -68,12 +68,12 @@ const Cedant = () => {
         <header className="bg-white shadow-sm border-b">
           <div className="container mx-auto px-6 py-4">
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
                 <Link to="/" className="text-blue-600 hover:text-blue-700">
                   <ArrowLeft className="h-5 w-5" />
                 </Link>
                 <AltiscapLogo size="lg" />
-                <div>
+            <div>
                   <h1 className="text-2xl font-bold text-gray-900">Espace Cédant</h1>
                   <p className="text-sm text-gray-600">Créez votre dossier de vente d'entreprise</p>
                 </div>
@@ -110,8 +110,8 @@ const Cedant = () => {
                     <TrendingUp className="h-12 w-12 text-blue-600 mx-auto mb-3" />
                     <h3 className="font-semibold text-gray-900 mb-2">Optimisation du prix</h3>
                     <p className="text-sm text-gray-600">Maximisez la valeur de votre entreprise</p>
-                  </div>
-                </div>
+          </div>
+        </div>
               </CardContent>
             </Card>
 
@@ -240,13 +240,13 @@ const Cedant = () => {
                   <div className="flex items-start space-x-3">
                     <div className="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                       1
-                    </div>
+                      </div>
                     <div>
                       <h4 className="font-semibold">Création du dossier</h4>
                       <p className="text-sm text-gray-600">Remplissez le formulaire avec les informations de votre entreprise</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start space-x-3">
                     <div className="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                       2
@@ -256,7 +256,7 @@ const Cedant = () => {
                       <p className="text-sm text-gray-600">Nos experts analysent votre entreprise et établissent une valorisation</p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start space-x-3">
                     <div className="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                       3
